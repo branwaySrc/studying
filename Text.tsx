@@ -19,21 +19,20 @@ const PretendardFont = {
 // 그리고 소수점이 많아서 3자리수까지만 짤랐습니다.
 // DEVELOP_FONT_SIZES는 디자인에 사용된 고정 폰트 값입니다.
 // 그리고 그 배율을 각각 기준폰트와 곱해서 추가해야하는 사이즈 수를 구했습니다.
-
 function useFontScaleDimensions() {
   const baseScale = DEVELOP_ENV_FONT_SCALE; //1
   const { fontScale: currentDeviceFontScale } = useWindowDimensions();
   const scaleDeficiency = parseFloat(((baseScale - currentDeviceFontScale) / baseScale).toFixed(3));
-  const roundedPixelDeficiency = scaleDeficiency;
-  const deficiencyXs = roundedPixelDeficiency * DEVELOP_FONT_SIZES.xs; //10
-  const deficiencySm = roundedPixelDeficiency * DEVELOP_FONT_SIZES.sm; //13
-  const deficiencyBase = roundedPixelDeficiency * DEVELOP_FONT_SIZES.base; //15
-  const deficiencyMd = roundedPixelDeficiency * DEVELOP_FONT_SIZES.md; //18
-  const deficiencyLg = roundedPixelDeficiency * DEVELOP_FONT_SIZES.lg; //21
-  const deficiencyXl = roundedPixelDeficiency * DEVELOP_FONT_SIZES.xl; //26
+  const deficiencyXs = scaleDeficiency * DEVELOP_FONT_SIZES.xs; //10
+  const deficiencySm = scaleDeficiency * DEVELOP_FONT_SIZES.sm; //13
+  const deficiencyBase = scaleDeficiency * DEVELOP_FONT_SIZES.base; //15
+  const deficiencyMd = scaleDeficiency * DEVELOP_FONT_SIZES.md; //18
+  const deficiencyLg = scaleDeficiency * DEVELOP_FONT_SIZES.lg; //21
+  const deficiencyXl = scaleDeficiency * DEVELOP_FONT_SIZES.xl; //26
 
   return [deficiencyXs, deficiencySm, deficiencyBase, deficiencyMd, deficiencyLg, deficiencyXl];
 }
+
 
 // 이제 그 값들을 모두 기준 폰트에 더해줬습니다 :)
 // useMemo를 사용한 이유는 한 번 구해진 값을 더이상 다시 구할 필요가 없기에 사용했습니다.
