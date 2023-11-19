@@ -23,7 +23,6 @@ const PretendardFont = {
 function useFontScaleDimensions() {
   const baseScale = DEVELOP_ENV_FONT_SCALE; //1
   const { fontScale: currentDeviceFontScale } = useWindowDimensions();
-  // const scaleDeficiency = ((baseScale - currentDeviceFontScale) / baseScale) ;
   const scaleDeficiency = parseFloat(((baseScale - currentDeviceFontScale) / baseScale).toFixed(3));
   const roundedPixelDeficiency = scaleDeficiency;
   const deficiencyXs = roundedPixelDeficiency * DEVELOP_FONT_SIZES.xs; //10
