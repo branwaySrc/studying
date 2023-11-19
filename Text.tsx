@@ -47,7 +47,7 @@ function GetDynmicText() {
   const deficiencyPixel = useFontScaleDimensions();
   const dynamicFontSize = useMemo(() => {
     //TODO
-    //여기에 콘솔로그 시 매번 다른 컴포넌트들이 리렌더링 될때마다, 다시 재랜더링됨..
+    //여기에 콘솔로그 시 매번 다른 컴포넌트들이 리렌더링 될때마다, 로그가 찍혀나옵니다!..
      return {
       xs: DEVELOP_FONT_SIZES.sm + deficiencyPixel[0],
       sm: DEVELOP_FONT_SIZES.sm + deficiencyPixel[1],
