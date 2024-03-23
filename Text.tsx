@@ -1,3 +1,5 @@
+//@해결완료!
+
 import React, { useMemo } from "react";
 import {
   Text as DefaultText,
