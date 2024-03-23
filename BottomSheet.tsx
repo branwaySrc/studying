@@ -19,28 +19,33 @@ interface BottomSheet {
   children?: React.ReactNode;
 }
 
-const MAX_TRANSLATE_Y = -CONFIG.SCREEN_HEIGHT + 80;
-const CENTER_TRANSLATE_Y = -CONFIG.SCREEN_HEIGHT * 0.6;
-const MIN_TRANSLATE_Y = -CONFIG.SCREEN_HEIGHT * 0.15;
+const MAX_TRANSLATE_RANGE_Y = -CONFIG.SCREEN_HEIGHT + 80;
+const CENTERED_POSITION_BETWEEN_RANGE_Y = -CONFIG.SCREEN_HEIGHT * 0.6;
+const MIN_TRANSLATE_RANGE_Y = -CONFIG.SCREEN_HEIGHT * 0.15;
 
 export const BottomSheet = (props: BottomSheet) => {
-  const translateY = useSharedValue(0);
-  const context = useSharedValue({ y: 0 });
+  const currentTranslateY = useSharedValue(0);
+  const currentContext = useSharedValue({ y: 0 });
   const swipeDirection = useSharedValue("idle");
-  
-  const scrollTo = useCallback((destination: number) => {
+
+  const replaceSheetTo = useCallback((y: number) => {
     "worklet";
-    translateY.value = withTiming(destination, { duration: 350 });
+    currentTranslateY.value = withTiming(y, {
+      duration: 350,
+    });
   }, []);
-  
+
   const panGesture = Gesture.Pan()
     .onStart(() => {
-      context.value = { y: translateY.value };
+      currentContext.value = { y: currentTranslateY.value };
     })
     .onUpdate((scrollY) => {
-      translateY.value = scrollY.translationY + context.value.y;
-      translateY.value = Math.max(translateY.value, MAX_TRANSLATE_Y);
-      translateY.value > context.value.y
+      currentTranslateY.value = scrollY.translationY + currentContext.value.y;
+      currentTranslateY.value = Math.max(
+        currentTranslateY.value,
+        MAX_TRANSLATE_RANGE_Y,
+      );
+      currentTranslateY.value > currentContext.value.y
         ? (swipeDirection.value = "DOWN")
         : (swipeDirection.value = "UP");
     })
@@ -49,43 +54,43 @@ export const BottomSheet = (props: BottomSheet) => {
       if (
         swipeDirection.value === "UP" &&
         scrollY.translationY < 1 &&
-        context.value.y > MIN_TRANSLATE_Y
+        currentContext.value.y > MIN_TRANSLATE_RANGE_Y
       ) {
-        scrollTo(MIN_TRANSLATE_Y);
+        replaceSheetTo(MIN_TRANSLATE_RANGE_Y);
       } else if (
         swipeDirection.value === "DOWN" &&
         scrollY.translationY > 1 &&
-        translateY.value > CENTER_TRANSLATE_Y
+        currentTranslateY.value > CENTERED_POSITION_BETWEEN_RANGE_Y
       ) {
-        scrollTo(MIN_TRANSLATE_Y);
+        replaceSheetTo(MIN_TRANSLATE_RANGE_Y);
       } else if (
         swipeDirection.value === "UP" &&
         scrollY.translationY < 1 &&
-        translateY.value > -CONFIG.SCREEN_HEIGHT * 0.5
+        currentTranslateY.value > -CONFIG.SCREEN_HEIGHT * 0.5
       ) {
-        scrollTo(CENTER_TRANSLATE_Y);
+        replaceSheetTo(CENTERED_POSITION_BETWEEN_RANGE_Y);
       } else if (
         swipeDirection.value === "DOWN" &&
         scrollY.translationY > 1 &&
-        translateY.value > MAX_TRANSLATE_Y
+        currentTranslateY.value > MAX_TRANSLATE_RANGE_Y
       ) {
-        scrollTo(CENTER_TRANSLATE_Y);
+        replaceSheetTo(CENTERED_POSITION_BETWEEN_RANGE_Y);
       } else if (
         swipeDirection.value === "UP" &&
         scrollY.translationY < 1 &&
-        translateY.value < -CONFIG.SCREEN_HEIGHT * 0.5
+        currentTranslateY.value < -CONFIG.SCREEN_HEIGHT * 0.5
       ) {
-        scrollTo(MAX_TRANSLATE_Y);
+        replaceSheetTo(MAX_TRANSLATE_RANGE_Y);
       }
     });
 
   useEffect(() => {
-    scrollTo(MIN_TRANSLATE_Y);
+    replaceSheetTo(MIN_TRANSLATE_RANGE_Y);
   }, []);
 
   const rBottomSheetStyle = useAnimatedStyle(() => {
     return {
-      transform: [{ translateY: translateY.value }],
+      transform: [{ translateY: currentTranslateY.value }],
     };
   });
 
