@@ -25,12 +25,14 @@ const MIN_TRANSLATE_Y = -CONFIG.SCREEN_HEIGHT * 0.15;
 
 export const BottomSheet = (props: BottomSheet) => {
   const translateY = useSharedValue(0);
+  const context = useSharedValue({ y: 0 });
+  const swipeDirection = useSharedValue("idle");
+  
   const scrollTo = useCallback((destination: number) => {
     "worklet";
     translateY.value = withTiming(destination, { duration: 350 });
   }, []);
-  const swipeDirection = useSharedValue("idle");
-  const context = useSharedValue({ y: 0 });
+  
   const panGesture = Gesture.Pan()
     .onStart(() => {
       context.value = { y: translateY.value };
