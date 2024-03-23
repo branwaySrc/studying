@@ -14,7 +14,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
-interface BottomSheet {
+interface BottomSheetProps {
   headerComponent?: React.ReactNode;
   children?: React.ReactNode;
 }
@@ -23,7 +23,7 @@ const MAX_TRANSLATE_RANGE_Y = -CONFIG.SCREEN_HEIGHT + 80;
 const CENTERED_POSITION_BETWEEN_RANGE_Y = -CONFIG.SCREEN_HEIGHT * 0.6;
 const MIN_TRANSLATE_RANGE_Y = -CONFIG.SCREEN_HEIGHT * 0.15;
 
-export const BottomSheet = (props: BottomSheet) => {
+export const BottomSheet = (props: BottomSheetProps) => {
   const currentTranslateY = useSharedValue(0);
   const currentContext = useSharedValue({ y: 0 });
   const swipeDirection = useSharedValue("idle");
