@@ -1,3 +1,5 @@
+// useNavigation<any> 에서 stackParamList declared type으로 바꾸기
+
 import { useNavigation } from "@react-navigation/native";
 import { EnumScreenLayer } from "@/Manager/Type/Reference/DefinedScreenRegistry";
 
